@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
 import { DictionaryService, normalizeQuery, isWordEntry } from '../src/services/dictionary';
 import type { DictionaryManifest } from '../src/services/dictionary';
 import { shardIndex } from '../src/dictionary/core.mjs';
@@ -16,6 +17,20 @@ function fileFetcher(requests: string[] = []): typeof fetch {
     const file = url.slice(url.indexOf('dictionary/'));
     return new Response(await readFile(new URL(file, publicDirectory)));
   }) as typeof fetch;
+}
+
+const bankBucket = shardIndex('bank', manifest.bucketCount);
+const bankBytes = await readFile(new URL('dictionary/' + manifest.shards[bankBucket].file, publicDirectory));
+const bankGzip = gzipSync(bankBytes, { level: 9 });
+function gzipManifest(): DictionaryManifest {
+  const result = structuredClone(manifest);
+  result.shards[bankBucket].file += '.gz';
+  result.shards[bankBucket].compression = 'gzip';
+  result.shards[bankBucket].gzipBytes = bankGzip.byteLength;
+  return result;
+}
+function gzipFetcher(data: DictionaryManifest, body: () => Uint8Array<ArrayBuffer> = () => bankGzip): typeof fetch {
+  return (async input => String(input).endsWith('manifest.json') ? Response.json(data) : new Response(body())) as typeof fetch;
 }
 
 describe('dictionary normalization and primary formats', () => {
@@ -150,5 +165,76 @@ describe('dictionary errors and retries', () => {
       return new Response(text.replace('sloping land', 'sloping sand'));
     }) as typeof fetch });
     await expect(corrupted.lookup('bank')).rejects.toMatchObject({ code: 'DATA_ERROR' });
+  });
+});
+
+describe('gzip deployment dictionary', () => {
+  it('decodes the real bank shard and retains source senses and the original digest', async () => {
+    const data = gzipManifest();
+    const fetcher = vi.fn(gzipFetcher(data));
+    const service = new DictionaryService({ baseUrl: '/words/', fetcher });
+    const bank = await service.lookup('bank');
+    expect(bank).toEqual((JSON.parse(bankBytes.toString()) as { entries: Record<string, unknown> }).entries.bank);
+    expect(sha256(bankBytes)).toBe(data.shards[bankBucket].sha256);
+    expect((await service.lookup(' Ｂank ')).id).toBe('en:bank');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(String(fetcher.mock.calls[1][0])).toBe('/words/dictionary/' + data.shards[bankBucket].file);
+  });
+
+  it('accepts bytes already decoded by HTTP Content-Encoding', async () => {
+    const service = new DictionaryService({ fetcher: gzipFetcher(gzipManifest(), () => bankBytes) });
+    await expect(service.lookup('bank')).resolves.toMatchObject({ id: 'en:bank' });
+  });
+
+  it('rejects mismatched compression flags and limits declared uncompressed bytes', async () => {
+    for (const change of [
+      (data: DictionaryManifest) => { delete data.shards[bankBucket].compression; },
+      (data: DictionaryManifest) => { data.shards[bankBucket].file = manifest.shards[bankBucket].file; },
+      (data: DictionaryManifest) => { data.shards[bankBucket].bytes = 4 * 1024 * 1024 + 1; },
+    ]) {
+      const data = gzipManifest();
+      change(data);
+      const service = new DictionaryService({ fetcher: gzipFetcher(data) });
+      await expect(service.lookup('bank')).rejects.toMatchObject({ code: 'DATA_ERROR' });
+    }
+  });
+
+  it('rejects damaged gzip data without caching the failure, then retries', async () => {
+    const damaged = Buffer.from(bankGzip);
+    damaged[damaged.length - 5] ^= 0xff;
+    let fail = true;
+    const fetcher = vi.fn(gzipFetcher(gzipManifest(), () => {
+      if (fail) { fail = false; return damaged; }
+      return bankGzip;
+    }));
+    const service = new DictionaryService({ fetcher });
+    await expect(service.lookup('bank')).rejects.toMatchObject({ code: 'DATA_ERROR', message: '词典压缩分片损坏，请重试。' });
+    await expect(service.lookup('bank')).resolves.toMatchObject({ id: 'en:bank' });
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  });
+
+  it('checks the original JSON digest after decompression', async () => {
+    const altered = gzipSync(bankBytes.toString().replace('sloping land', 'sloping sand'), { level: 9 });
+    const data = gzipManifest();
+    data.shards[bankBucket].gzipBytes = altered.byteLength;
+    const service = new DictionaryService({ fetcher: gzipFetcher(data, () => altered) });
+    await expect(service.lookup('bank')).rejects.toMatchObject({ code: 'DATA_ERROR', message: '词典分片校验失败。' });
+  });
+
+  it('stops decompression when output exceeds the declared size', async () => {
+    const data = gzipManifest();
+    data.shards[bankBucket].bytes = bankBytes.byteLength - 1;
+    const service = new DictionaryService({ fetcher: gzipFetcher(data) });
+    await expect(service.lookup('bank')).rejects.toMatchObject({ code: 'DATA_ERROR', message: '词典分片解压长度超过版本清单。' });
+  });
+
+  it('reports missing decompression support accurately while allowing HTTP-decoded bytes', async () => {
+    vi.stubGlobal('DecompressionStream', undefined);
+    try {
+      const service = new DictionaryService({ fetcher: gzipFetcher(gzipManifest()) });
+      await expect(service.lookup('bank')).rejects.toMatchObject({ code: 'DATA_ERROR', message: '当前浏览器无法解压词典资源，请更新浏览器后重试。' });
+      const alreadyDecoded = new DictionaryService({ fetcher: gzipFetcher(gzipManifest(), () => bankBytes) });
+      await expect(alreadyDecoded.lookup('bank')).resolves.toMatchObject({ id: 'en:bank' });
+    } finally { vi.unstubAllGlobals(); }
   });
 });

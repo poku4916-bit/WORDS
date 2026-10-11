@@ -12,6 +12,7 @@ export interface DictionaryShard {
   bytes: number;
   gzipBytes: number;
   entries: number;
+  compression?: 'gzip';
 }
 
 export interface DictionarySource {
@@ -48,6 +49,7 @@ const object = (value: unknown): value is ObjectRecord => !!value && typeof valu
 const strings = (value: unknown): value is string[] => Array.isArray(value) && value.every(item => typeof item === 'string');
 const positiveInteger = (value: unknown): value is number => Number.isInteger(value) && (value as number) >= 0;
 const checksum = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
+const maxShardBytes = 4 * 1024 * 1024;
 
 function assertManifest(value: unknown): asserts value is DictionaryManifest {
   if (!object(value) || value.schemaVersion !== 1 || value.hashAlgorithm !== 'fnv1a-32-utf8' ||
@@ -60,8 +62,9 @@ function assertManifest(value: unknown): asserts value is DictionaryManifest {
   }
   value.shards.forEach((shard, bucket) => {
     if (!object(shard) || shard.bucket !== bucket || typeof shard.file !== 'string' ||
-        !/^shard-\d{3,5}-[a-f0-9]{16}\.json$/.test(shard.file) || !checksum(shard.sha256) ||
-        !positiveInteger(shard.bytes) || !positiveInteger(shard.gzipBytes) || !positiveInteger(shard.entries)) {
+        !(shard.compression === undefined ? /^shard-\d{3,5}-[a-f0-9]{16}\.json$/.test(shard.file) :
+          shard.compression === 'gzip' && /^shard-\d{3,5}-[a-f0-9]{16}\.json\.gz$/.test(shard.file)) || !checksum(shard.sha256) ||
+        !positiveInteger(shard.bytes) || shard.bytes > maxShardBytes || !positiveInteger(shard.gzipBytes) || !positiveInteger(shard.entries)) {
       throw new DictionaryError('DATA_ERROR', '词典分片映射损坏。');
     }
   });
@@ -147,7 +150,13 @@ export class DictionaryService {
 
   private async readShard(manifest: DictionaryManifest, bucket: number): Promise<Record<string, WordEntry>> {
     const metadata = manifest.shards[bucket];
-    const bytes = await this.download(metadata.file);
+    let bytes = await this.download(metadata.file);
+    const header = new Uint8Array(bytes, 0, Math.min(2, bytes.byteLength));
+    // Fetch may already decode Content-Encoding: gzip. Only a remaining gzip header needs decoding.
+    if (metadata.compression === 'gzip' && header[0] === 0x1f && header[1] === 0x8b) {
+      if (bytes.byteLength !== metadata.gzipBytes) throw new DictionaryError('DATA_ERROR', '词典压缩分片长度不匹配。');
+      bytes = await this.decompressShard(bytes, metadata.bytes);
+    }
     if (bytes.byteLength !== metadata.bytes) throw new DictionaryError('DATA_ERROR', '词典分片长度不匹配。');
     if (globalThis.crypto?.subtle) {
       const hash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), byte => byte.toString(16).padStart(2, '0')).join('');
@@ -160,6 +169,33 @@ export class DictionaryService {
       throw new DictionaryError('DATA_ERROR', '词典分片内容损坏。');
     }
     return shard.entries as Record<string, WordEntry>;
+  }
+
+  private async decompressShard(bytes: ArrayBuffer, expectedBytes: number): Promise<ArrayBuffer> {
+    if (typeof globalThis.DecompressionStream !== 'function') {
+      throw new DictionaryError('DATA_ERROR', '当前浏览器无法解压词典资源，请更新浏览器后重试。');
+    }
+    const output = new Uint8Array(expectedBytes);
+    let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+    try {
+      reader = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip')).getReader();
+      let offset = 0;
+      while (true) {
+        const chunk = await reader.read();
+        if (chunk.done) break;
+        if (offset + chunk.value.byteLength > expectedBytes) {
+          throw new DictionaryError('DATA_ERROR', '词典分片解压长度超过版本清单。');
+        }
+        output.set(chunk.value, offset);
+        offset += chunk.value.byteLength;
+      }
+      if (offset !== expectedBytes) throw new DictionaryError('DATA_ERROR', '词典分片长度不匹配。');
+      return output.buffer;
+    } catch (error) {
+      await reader?.cancel().catch(() => undefined);
+      if (error instanceof DictionaryError) throw error;
+      throw new DictionaryError('DATA_ERROR', '词典压缩分片损坏，请重试。', { cause: error });
+    } finally { reader?.releaseLock(); }
   }
 
   async lookup(query: string): Promise<WordEntry> {

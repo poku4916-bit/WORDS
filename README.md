@@ -48,6 +48,8 @@ npm.cmd run dictionary:build
 
 下载脚本固定源版本与 SHA-256，原始数据缓存在被忽略的 `.cache/dictionary/`。WordNet 官方站点在当前环境无法直连，采用固定提交的 NLTK 原版 WordNet 3.0 分发包；报告注明传输来源与比对边界。许可证保留在 `public/licenses/`，字体使用 Newsreader / Inter，中文使用系统字体。
 
+生产构建会将完整词库转为约 57.82 MiB 的 gzip 分片，浏览器按需解压并校验，避免超过托管归档的 256 MiB 上限。原始 JSON 留在 `public/`，不削减词条。运行时依赖的完整 LICENSE / NOTICE 在构建时从已安装的锁定版本生成并随网站分发。
+
 ## 开发边界
 
 开发服务另有 `http://127.0.0.1:5173/component-showcase.html` 内部检查页，展示按钮、空状态、错误反馈、弹窗焦点，以及真实 `light` 词条全部 48 条英文义项和明确标注的长笔记测试数据。该页只读词典、不写入个人数据，不进入产品导航，也不包含在默认生产构建中。
