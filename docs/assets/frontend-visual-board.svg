@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1350" viewBox="0 0 1760 1350">
+  <title>WORDS. 前端视觉设计板</title>
+  <desc>暖白、深墨和森林绿的编辑式词典方向。左侧展示桌面查词，右侧展示手机学习，底部为色彩与字体。全部数据为概念示例。</desc>
+  <defs>
+    <style>
+      .ui { font-family: 'Inter', 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+      .display { font-family: Georgia, 'Times New Roman', serif; }
+      .mono { font-family: 'Consolas', monospace; letter-spacing: 1.2px; }
+      .ink { fill: #20251F; }
+      .muted { fill: #62685D; }
+      .green { fill: #294839; }
+      .line { stroke: #C8CEC0; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="1760" height="1350" fill="#EAE8DE"/>
+  <text x="56" y="58" class="mono muted" font-size="13">FRONTEND DESIGN / 01</text>
+  <text x="56" y="143" class="display ink" font-size="78" letter-spacing="-2">Words, collected.</text>
+  <text x="60" y="190" class="ui muted" font-size="20">一本会回应你的现代词典。查词、积累、复习，在同一页语言里展开。</text>
+  <text x="1410" y="70" class="mono muted" font-size="12">EDITORIAL / INTERACTIVE</text>
+  <line x1="1410" y1="88" x2="1704" y2="88" class="line"/>
+  <text x="1410" y="118" class="ui ink" font-size="17">暖白纸面 · 森林绿 · 词义展开</text>
+  <text x="1410" y="147" class="ui muted" font-size="14">概念构图 / V0.1</text>
+  <text x="56" y="240" class="ui ink" font-size="17">01 / 查词 · 桌面</text>
+  <text x="1248" y="240" class="ui ink" font-size="17">02 / 学习 · 手机</text>
+
+  <!-- Desktop dictionary composition -->
+  <rect x="56" y="264" width="1120" height="790" rx="14" fill="#F4F1E9" stroke="#C8CEC0"/>
+  <path d="M70 264 H1162 Q1176 264 1176 278 V304 H56 V278 Q56 264 70 264" fill="#E3E5DB"/>
+  <circle cx="79" cy="285" r="5" fill="#B9BEB0"/>
+  <circle cx="97" cy="285" r="5" fill="#B9BEB0"/>
+  <circle cx="115" cy="285" r="5" fill="#B9BEB0"/>
+  <text x="536" y="290" class="ui muted" font-size="11">WORDS. / 词典</text>
+  <text x="88" y="352" class="display ink" font-size="31" letter-spacing="-1">WORDS.</text>
+  <text x="349" y="349" class="ui green" font-size="16">查词</text>
+  <text x="438" y="349" class="ui muted" font-size="16">单词本</text>
+  <text x="558" y="349" class="ui muted" font-size="16">学习</text>
+  <line x1="349" y1="363" x2="381" y2="363" stroke="#294839" stroke-width="2"/>
+  <text x="1098" y="349" class="ui muted" font-size="15">设置</text>
+  <line x1="88" y1="380" x2="1144" y2="380" class="line"/>
+  <rect x="88" y="404" width="744" height="56" rx="8" fill="#FCFBF7" stroke="#78816F"/>
+  <circle cx="115" cy="431" r="7" fill="none" stroke="#62685D" stroke-width="1.5"/>
+  <line x1="120" y1="437" x2="126" y2="443" stroke="#62685D" stroke-width="1.5"/>
+  <text x="143" y="440" class="ui ink" font-size="18">bank</text>
+  <rect x="722" y="410" width="104" height="44" rx="6" fill="#294839"/>
+  <text x="774" y="438" class="ui" fill="#FCFBF7" font-size="16" text-anchor="middle">查词</text>
+  <text x="88" y="550" class="display ink" font-size="100" letter-spacing="-2">bank</text>
+  <text x="324" y="538" class="ui muted" font-size="20">/bæŋk/</text>
+  <circle cx="426" cy="531" r="20" fill="#D9DFCB"/>
+  <path d="M416 528 H420 L426 523 V539 L420 534 H416 Z" fill="#294839"/>
+  <path d="M431 525 Q438 531 431 537" fill="none" stroke="#294839" stroke-width="1.5"/>
+  <rect x="650" y="510" width="182" height="44" rx="8" fill="none" stroke="#78816F"/>
+  <text x="741" y="538" class="ui green" font-size="15" text-anchor="middle">整理到词本 ↗</text>
+  <text x="88" y="584" class="ui green" font-size="15">✓ 已收录 · 我的单词</text>
+  <text x="88" y="635" class="ui green" font-size="14" font-weight="600">中文释义</text>
+  <text x="88" y="670" class="ui ink" font-size="19">n. 银行；河岸；堤岸。v. 存入银行。</text>
+  <line x1="88" y1="699" x2="832" y2="699" class="line"/>
+  <text x="88" y="734" class="ui green" font-size="14" font-weight="600">英文义项</text>
+  <text x="88" y="773" class="mono muted" font-size="14">01</text>
+  <text x="125" y="773" class="ui green" font-size="15">noun · 金融机构含义</text>
+  <text x="125" y="808" class="ui ink" font-size="18">A financial institution that manages money.</text>
+  <rect x="125" y="826" width="167" height="34" rx="17" fill="#D9DFCB"/>
+  <text x="208" y="848" class="ui green" font-size="14" text-anchor="middle">banking company ↗</text>
+  <rect x="304" y="826" width="248" height="34" rx="17" fill="#D9DFCB"/>
+  <text x="428" y="848" class="ui green" font-size="14" text-anchor="middle">depository financial institution ↗</text>
+  <line x1="125" y1="881" x2="832" y2="881" class="line"/>
+  <text x="88" y="916" class="mono muted" font-size="14">02</text>
+  <text x="125" y="916" class="ui green" font-size="15">noun · 河岸含义</text>
+  <text x="125" y="950" class="ui ink" font-size="18">The land beside a river.</text>
+  <text x="125" y="982" class="ui muted" font-size="14">这个含义暂无近义词。</text>
+  <text x="88" y="1030" class="ui muted" font-size="12">示例词条 · 中英文分区展示</text>
+
+  <!-- Context rail, a stable location for later capabilities -->
+  <line x1="864" y1="404" x2="864" y2="1022" class="line"/>
+  <text x="899" y="428" class="ui green" font-size="16" font-weight="600">今日复习</text>
+  <text x="897" y="502" class="display ink" font-size="70">12<tspan class="ui muted" font-size="16" dx="12">词待复习</tspan></text>
+  <text x="899" y="539" class="ui muted" font-size="14">从已积累的词开始。</text>
+  <rect x="899" y="563" width="245" height="48" rx="8" fill="#294839"/>
+  <text x="1021" y="593" class="ui" fill="#FCFBF7" font-size="16" text-anchor="middle">开始复习 →</text>
+  <line x1="899" y1="649" x2="1144" y2="649" class="line"/>
+  <text x="899" y="682" class="ui green" font-size="15" font-weight="600">最近查询</text>
+  <text x="899" y="721" class="display ink" font-size="23">halcyon</text>
+  <text x="1144" y="720" class="ui muted" font-size="13" text-anchor="end">平静的</text>
+  <line x1="899" y1="739" x2="1144" y2="739" class="line"/>
+  <text x="899" y="774" class="display ink" font-size="23">serendipity</text>
+  <text x="1144" y="773" class="ui muted" font-size="13" text-anchor="end">机缘</text>
+  <line x1="899" y1="792" x2="1144" y2="792" class="line"/>
+  <text x="899" y="826" class="display ink" font-size="23">resilient</text>
+  <text x="1144" y="825" class="ui muted" font-size="13" text-anchor="end">有韧性的</text>
+  <rect x="899" y="877" width="245" height="118" rx="10" fill="#E7E9DC"/>
+  <text x="916" y="909" class="ui green" font-size="14" font-weight="600">我的笔记</text>
+  <text x="916" y="943" class="ui ink" font-size="15">留下一句自己的理解。</text>
+  <text x="916" y="975" class="ui green" font-size="14">添加笔记 ↗</text>
+
+  <!-- Mobile focused study composition -->
+  <rect x="1248" y="264" width="456" height="790" rx="40" fill="#294839"/>
+  <rect x="1270" y="286" width="412" height="746" rx="27" fill="#F4F1E9"/>
+  <rect x="1417" y="300" width="118" height="16" rx="8" fill="#294839"/>
+  <text x="1294" y="362" class="display ink" font-size="27">WORDS.</text>
+  <text x="1493" y="359" class="mono muted" font-size="14">03 / 20</text>
+  <text x="1650" y="360" class="ui muted" font-size="20">×</text>
+  <text x="1294" y="402" class="ui muted" font-size="15">今日复习 · 阅读生词</text>
+  <rect x="1294" y="422" width="364" height="3" rx="1.5" fill="#C8CEC0"/>
+  <rect x="1294" y="422" width="55" height="3" rx="1.5" fill="#294839"/>
+  <rect x="1294" y="458" width="364" height="399" rx="12" fill="#FCFBF7" stroke="#C8CEC0"/>
+  <text x="1476" y="507" class="ui muted" font-size="14" text-anchor="middle">回忆这个词的含义</text>
+  <text x="1476" y="587" class="display ink" font-size="49" letter-spacing="-1" text-anchor="middle">serendipity</text>
+  <text x="1476" y="629" class="ui muted" font-size="18" text-anchor="middle">/ˌserənˈdɪpəti/</text>
+  <line x1="1317" y1="669" x2="1635" y2="669" class="line"/>
+  <text x="1317" y="715" class="ui ink" font-size="18">意外发现美好事物的机缘。</text>
+  <text x="1317" y="759" class="ui muted" font-size="16">Finding something good</text>
+  <text x="1317" y="785" class="ui muted" font-size="16">when you were not looking for it.</text>
+  <text x="1476" y="833" class="ui muted" font-size="13" text-anchor="middle">已揭示答案</text>
+  <rect x="1294" y="884" width="112" height="58" rx="8" fill="#FCFBF7" stroke="#78816F"/>
+  <text x="1350" y="920" class="ui" fill="#9D3F2B" font-size="17" text-anchor="middle">忘记</text>
+  <rect x="1420" y="884" width="112" height="58" rx="8" fill="#FCFBF7" stroke="#78816F"/>
+  <text x="1476" y="920" class="ui ink" font-size="17" text-anchor="middle">模糊</text>
+  <rect x="1546" y="884" width="112" height="58" rx="8" fill="#294839"/>
+  <text x="1602" y="920" class="ui" fill="#FCFBF7" font-size="17" text-anchor="middle">记住</text>
+  <text x="1476" y="982" class="ui muted" font-size="14" text-anchor="middle">先回忆，再选择记忆程度</text>
+  <rect x="1424" y="1012" width="104" height="4" rx="2" fill="#294839"/>
+
+  <!-- Palette and type summary -->
+  <text x="56" y="1103" class="mono muted" font-size="13">COLOR / TYPE / MOTION</text>
+  <rect x="56" y="1134" width="88" height="74" rx="7" fill="#F4F1E9" stroke="#C8CEC0"/>
+  <rect x="168" y="1134" width="88" height="74" rx="7" fill="#20251F"/>
+  <rect x="280" y="1134" width="88" height="74" rx="7" fill="#294839"/>
+  <rect x="392" y="1134" width="88" height="74" rx="7" fill="#D9DFCB"/>
+  <rect x="504" y="1134" width="88" height="74" rx="7" fill="#E4E39A"/>
+  <rect x="616" y="1134" width="88" height="74" rx="7" fill="#9D3F2B"/>
+  <text x="56" y="1236" class="ui ink" font-size="14">纸面</text>
+  <text x="168" y="1236" class="ui ink" font-size="14">深墨</text>
+  <text x="280" y="1236" class="ui ink" font-size="14">森林绿</text>
+  <text x="392" y="1236" class="ui ink" font-size="14">轻提示</text>
+  <text x="504" y="1236" class="ui ink" font-size="14">标记</text>
+  <text x="616" y="1236" class="ui ink" font-size="14">错误</text>
+  <text x="56" y="1261" class="mono muted" font-size="11">#F4F1E9</text>
+  <text x="168" y="1261" class="mono muted" font-size="11">#20251F</text>
+  <text x="280" y="1261" class="mono muted" font-size="11">#294839</text>
+  <text x="392" y="1261" class="mono muted" font-size="11">#D9DFCB</text>
+  <text x="504" y="1261" class="mono muted" font-size="11">#E4E39A</text>
+  <text x="616" y="1261" class="mono muted" font-size="11">#9D3F2B</text>
+  <text x="828" y="1184" class="display ink" font-size="48" letter-spacing="-1">A word worth keeping.</text>
+  <text x="832" y="1228" class="ui muted" font-size="20">大字词头 / 清晰正文 / 有节制的反馈</text>
+  <text x="832" y="1260" class="ui muted" font-size="15">后续空间：阅读摘词 · 义项学习 · 统计 · 云同步</text>
+  <line x1="56" y1="1296" x2="1704" y2="1296" class="line"/>
+  <text x="56" y="1327" class="ui muted" font-size="13">概念视觉板：所有词条、词数与进度均为示例。最终功能、字体与组件状态以 FRONTEND_DESIGN.md 为准。</text>
+  <text x="1704" y="1327" class="mono muted" font-size="12" text-anchor="end">WORDS. / V0.1</text>
+</svg>

@@ -1,0 +1,29 @@
+WORDS runtime dependencies
+
+These notices accompany the JavaScript distributed with WORDS.
+Versions are read from installed packages locked by package-lock.json.
+
+React 19.3.0 - MIT
+https://github.com/facebook/react
+Full license: REACT-LICENSE.txt
+
+React DOM 19.3.0 - MIT
+https://github.com/facebook/react
+Full license: REACT-DOM-LICENSE.txt
+
+Scheduler 0.28.0 - MIT
+https://github.com/facebook/react
+Full license: SCHEDULER-LICENSE.txt
+
+Lucide React 0.468.0 - ISC
+https://github.com/lucide-icons/lucide
+Full license: LUCIDE-LICENSE.txt
+
+Dexie 4.4.6 - Apache-2.0
+https://github.com/dexie/Dexie.js
+Full license: DEXIE-LICENSE.txt
+Additional notice: DEXIE-NOTICE.txt
+
+Dictionary and font licenses are distributed separately in this directory:
+ECDICT-LICENSE.txt, WORDNET-LICENSE.txt, NEWSREADER-LICENSE.txt,
+INTER-LICENSE.txt and SOURCES.json.
