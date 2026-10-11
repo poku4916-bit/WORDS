@@ -68,7 +68,6 @@
 .study-question-word { text-align: center; padding: 66px 0 58px; }
 .study-question-word h1 { font-size: clamp(44px, 7vw, 86px); line-height: 1.08; letter-spacing: -.025em; margin: 0; font-weight: 400; }
 .study-phonetics { font-size: 16px; line-height: 1.7; color: var(--study-muted); margin: 18px 0 26px; }
-.study-question-word > .muted { font-size: 14px; margin-bottom: 0; }
 .study-question-gloss { padding: 44px 0 28px; }
 .study-prompt-label { display: block; color: var(--study-muted); font-size: 14px; margin-bottom: 20px; }
 .study-question-gloss > p { font-size: clamp(21px, 3vw, 28px); line-height: 1.65; margin: 0 0 12px; }
@@ -97,7 +96,7 @@
 .study-rating small { font-size: 13px; font-weight: 400; }
 .study-page kbd { font-family: inherit; font-size: 12px; font-weight: 400; padding: 2px 6px; border: 1px solid currentColor; border-radius: 4px; opacity: .85; }
 .study-session-footnote { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; line-height: 1.7; color: var(--study-muted); padding: 8px 0 24px; }
-.study-session-footnote label { display: flex; align-items: center; gap: 7px; cursor: pointer; min-height: 44px; }
+.study-session-footnote label { display: flex; align-items: center; gap: 7px; cursor: pointer; min-height: 44px; margin-left: auto; }
 .study-session-footnote input { width: 15px; height: 15px; }
 .study-summary { max-width: 720px; margin: 48px auto 0; text-align: center; padding: 20px 0 56px; }
 .study-completion-mark { display: inline-flex; width: 70px; height: 70px; justify-content: center; align-items: center; border: 1px solid var(--study-brand); color: var(--study-brand); border-radius: 50%; margin-bottom: 28px; }
