@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local OAuth testing. Values stay out of Git and browser code.
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+ALLOWED_GITHUB_ID=266625893

@@ -1,5 +1,7 @@
 # WORDS 部署说明
 
+2026-10-12 更新：个人版现已部署到 [Cloudflare WORDS](https://words-notebook.words-notebook.workers.dev)，使用 GitHub 登录与 D1 自动同步。当前部署步骤、维护与旧站迁移说明见 [CLOUDFLARE.md](CLOUDFLARE.md)。以下保留 2026-10-11 的 Sites 部署记录。
+
 配置日期：2026-10-11（北京时间）。本地功能与数据验证见 [IMPLEMENTATION.md](IMPLEMENTATION.md)。
 
 ## 托管配置

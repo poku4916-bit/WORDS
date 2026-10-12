@@ -1,5 +1,6 @@
 import Dexie, { type Table } from 'dexie';
 import type { Notebook, NotebookWord, PersonalWord, ReviewEvent, SearchEvent, SearchHistory, StudyProgress, StudySession, WordEntry } from '../types';
+import type { SyncOperation, SyncRecord } from '../../shared/sync';
 
 export const DEFAULT_NOTEBOOK_ID = 'all';
 
@@ -13,6 +14,9 @@ export class WordsDatabase extends Dexie {
   progress!: Table<StudyProgress, string>;
   reviews!: Table<ReviewEvent, string>;
   sessions!: Table<StudySession, string>;
+  syncHeads!: Table<SyncRecord, string>;
+  syncQueue!: Table<SyncOperation, string>;
+  syncMeta!: Table<{ key: string; value: unknown }, string>;
 
   constructor(name = 'words-notebook') {
     super(name);
@@ -27,6 +31,7 @@ export class WordsDatabase extends Dexie {
       reviews: 'id, sessionId, wordId, reviewedAt, studyDate',
       sessions: 'id, startedAt',
     });
+    this.version(2).stores({ syncHeads: 'key, entity', syncQueue: 'key', syncMeta: 'key' });
   }
 }
 

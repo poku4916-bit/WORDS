@@ -1,6 +1,8 @@
 # WORDS. 英文词典与单词本
 
-根据 [产品设计](docs/DESIGN.md)、[前端设计](docs/FRONTEND_DESIGN.md) 和 [GitHub 调研](docs/GITHUB_RESEARCH.md) 独立实现的 React + TypeScript + Vite 静态网页。
+根据 [产品设计](docs/DESIGN.md)、[前端设计](docs/FRONTEND_DESIGN.md) 和 [GitHub 调研](docs/GITHUB_RESEARCH.md) 独立实现，使用 React + TypeScript + Vite，个人云同步由 Cloudflare Workers + D1 提供。
+
+线上地址：[WORDS](https://words-notebook.words-notebook.workers.dev)。使用 poku4916-bit 的 GitHub 账号登录后，自动同步个人词本、笔记、复习进度与偏好；其他账号不能访问个人数据。部署与维护见 [Cloudflare 说明](docs/CLOUDFLARE.md)。
 
 ## 运行
 
@@ -33,7 +35,7 @@ npm.cmd run preview
 - 备份：JSON 导出、20 MiB 上限、导入预览与事务合并；事件去重、查询历史重算、较新进度优先、不同笔记保留、分类冲突重映射。
 - 界面：中文界面、纸面与森林绿视觉、桌面/手机布局、语义化控件、原生 dialog 焦点管理、减少动画、可关闭的学习快捷键、IME 防误提交。
 
-所有个人数据保存在当前浏览器 IndexedDB；少量偏好保存在 localStorage。没有账号或云同步。清理浏览器数据、换设备或换域名不会自动迁移词本，请先导出备份。
+本机模式把个人数据保存在 IndexedDB，偏好保存在 localStorage。配置 Cloudflare Workers + D1 后，可通过本人 GitHub 账号登录并自动跨设备同步词本、笔记、学习进度、查询/复习记录和偏好。部署与迁移步骤见 [个人版免费部署说明](docs/CLOUDFLARE.md)。旧网址的本机数据需要先导出备份、在新站导入一次。
 
 ## 词库与复现
 
@@ -54,6 +56,6 @@ npm.cmd run dictionary:build
 
 开发服务另有 `http://127.0.0.1:5173/component-showcase.html` 内部检查页，展示按钮、空状态、错误反馈、弹窗焦点，以及真实 `light` 词条全部 48 条英文义项和明确标注的长笔记测试数据。该页只读词典、不写入个人数据，不进入产品导航，也不包含在默认生产构建中。
 
-第一版的个人数据保存在浏览器；应用已打开且词条已保存时可以断网学习。尚未实现完整离线启动、Service Worker、云同步或在线增强 API。备份结构不合法时整体拒绝，避免部分导入造成关联破损；不自动恢复备份中的学习会话。
+应用已打开且词条已保存时可以断网学习。开启云同步后，本机修改在联网时自动补传；正在进行的学习会话只保留在当前设备。尚未实现完整离线启动、Service Worker 或在线增强 API。备份结构不合法时整体拒绝，避免部分导入造成关联破损；不自动恢复备份中的学习会话。
 
 验收情况与未完成验证见 [实施与验证记录](docs/IMPLEMENTATION.md)。静态资源预算是 gzip 压缩后的构建测量，不能等同于实际托管后的 Core Web Vitals。
