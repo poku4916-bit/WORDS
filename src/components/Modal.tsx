@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { X } from 'lucide-react';
-export default function Modal({ title, children, onClose, wide = false }: { title: string; children: ReactNode; onClose: () => void; wide?: boolean }) {
+export default function Modal({ title, children, onClose, wide = false, drawer = false }: { title: string; children: ReactNode; onClose: () => void; wide?: boolean; drawer?: boolean }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   useLayoutEffect(() => {
@@ -20,5 +20,9 @@ export default function Modal({ title, children, onClose, wide = false }: { titl
       queueMicrotask(() => { if (!element.open && trigger?.isConnected) trigger.focus({ preventScroll: true }); });
     };
   }, []);
-  return <dialog ref={dialog} className={`modal ${wide ? 'modal-wide' : ''}`} aria-labelledby="modal-title" onCancel={e => { e.preventDefault(); onClose(); }} onClick={e => { if (e.target === dialog.current) onClose(); }}><div className="modal-head"><h2 id="modal-title">{title}</h2><button className="icon-button" aria-label="关闭面板" onClick={onClose}><X size={22} /></button></div>{children}</dialog>;
+  return <dialog ref={dialog} className={`modal ${wide ? 'modal-wide' : ''} ${drawer ? 'modal-drawer' : ''}`} aria-labelledby="modal-title" onCancel={e => { e.preventDefault(); onClose(); }} onClick={e => {
+    if (e.target !== e.currentTarget) return;
+    const { left, right, top, bottom } = e.currentTarget.getBoundingClientRect();
+    if (e.clientX < left || e.clientX >= right || e.clientY < top || e.clientY >= bottom) onClose();
+  }}><div className="modal-head"><h2 id="modal-title">{title}</h2><button className="icon-button" aria-label="关闭面板" onClick={onClose}><X size={22} /></button></div>{children}</dialog>;
 }

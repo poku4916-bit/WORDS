@@ -1,0 +1,92 @@
+.header-actions {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-left:auto
+}
+.sync-trigger {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 10px;
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-control);
+  background:transparent;
+  color:var(--color-muted);
+  font-size:var(--text-meta);
+  white-space:nowrap
+}
+.sync-trigger:hover {
+  color:var(--color-brand);
+  border-color:var(--color-brand)
+}
+.sync-synced {
+  color:var(--color-brand)
+}
+.sync-error,.sync-offline {
+  color:var(--color-danger-ink)
+}
+.sync-status-card {
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:20px;
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-panel);
+  margin:20px 0;
+  background:var(--color-surface)
+}
+.sync-status-card p {
+  margin:6px 0
+}
+.sync-status-card small {
+  color:var(--color-muted)
+}
+.cloud-sync-panel h3 {
+  font-family:var(--font-display);
+  font-size:30px;
+  font-weight:400
+}
+.settings-tabs {
+  overflow-x:auto;
+  overflow-y:hidden;
+  white-space:nowrap;
+  flex-shrink:0;
+  scrollbar-width:thin
+}
+.cloud-sync-panel .inline-actions {
+  margin-bottom:18px
+}
+@media(max-width:640px) {
+  .header-actions {
+    gap:3px
+  }
+  .sync-trigger span {
+    display:none
+  }
+  .sync-trigger {
+    border:0;
+    padding:8px
+  }
+  .app-header {
+    gap:8px
+  }
+  .app-header nav {
+    gap:14px
+  }
+  .settings-tabs {
+    gap:6px
+  }
+  .settings-tabs button {
+    padding:9px 10px;
+    font-size:var(--text-meta)
+  }
+}
+
+@media(max-width:360px) {
+  .app-header { gap:4px; }
+  .app-header .brand { font-size:22px; }
+  .app-header nav { gap:6px; }
+  .app-header nav a { min-width:28px; font-size:12px; letter-spacing:0; }
+  .header-actions { gap:0; }
+}

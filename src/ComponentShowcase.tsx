@@ -10,7 +10,14 @@ import '@fontsource/newsreader/latin-400.css';
 import '@fontsource/newsreader/latin-400-italic.css';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
-import './styles/main.css';
+import './styles/tokens.css';
+import './styles/base.css';
+import './styles/shell.css';
+import './styles/search.css';
+import './styles/notebooks.css';
+import './styles/overlays.css';
+import './styles/responsive.css';
+import './styles/sync.css';
 import './styles/study.css';
 import './styles/showcase.css';
 

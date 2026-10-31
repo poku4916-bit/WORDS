@@ -319,26 +319,74 @@ AppShell
 
 ```css
 :root {
+  /* 纸面层次 */
   --color-canvas: #f4f1e9;
   --color-surface: #fcfbf7;
+  --color-raised: #fffefb;
+  --color-sunken: #eceadf;
+  /* 墨色 */
   --color-ink: #20251f;
+  --color-ink-soft: #3a4136;
   --color-muted: #62685d;
+  --color-on-brand: #fcfbf7;
+  /* 品牌与强调 */
   --color-brand: #294839;
+  --color-brand-strong: #1e382b;
+  --color-tint: #d9dfcb;
+  --color-tint-soft: #e8ebdf;
+  --color-hover: #e9e8dc;
+  --color-mark: #e4e39a;
+  /* 线条与控件 */
   --color-line: #c8cec0;
+  --color-line-soft: #dcdfd2;
   --color-control-border: #78816f;
   --color-focus: #3e5a8c;
+  /* 状态 */
+  --color-danger: #9d3f2b;
+  --color-danger-strong: #853221;
+  --color-danger-bg: #f1e3da;
+  --color-danger-ink: #873720;
+  --color-danger-line: #c38871;
+  --color-notice-bg: #e5eadf;
+  /* 字体与字号 */
   --font-display: "Newsreader", Georgia, serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont,
     "PingFang SC", "Microsoft YaHei", sans-serif;
+  --text-meta: 13px;
+  --text-small: 14px;
+  --text-control: 15px;
+  --text-body: 17px;
+  --text-lead: 20px;
+  --text-title: clamp(28px, 3.4vw, 40px);
+  --text-display: clamp(44px, 6vw, 96px);
+  /* 间距 */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
   --content-max: 1280px;
+  /* 形状与层次 */
   --radius-control: 8px;
   --radius-panel: 12px;
+  --radius-pill: 999px;
+  --shadow-float: 0 4px 28px rgba(32, 37, 31, 0.15);
+  --shadow-overlay: 0 16px 80px rgba(32, 37, 31, 0.15);
+  --shadow-paper: 0 1px 0 rgba(32, 37, 31, 0.04), 0 8px 32px rgba(32, 37, 31, 0.07);
+  /* 动效 */
   --motion-fast: 120ms;
   --motion-base: 200ms;
   --motion-reveal: 360ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
 }
 ```
+
+**实现对应关系（2026-10-31 更新）：**
+
+- 样式已从单个压缩文件拆成 `src/styles/` 下的 `tokens`、`base`、`shell`、`search`、`notebooks`、`overlays`、`responsive`、`sync`、`study` 九个文件，所有组件样式引用上述 token，不再写死色值。
+- 非关键元数据最小字号为 13px（`--text-meta`）；仅键帽标签 `kbd` 保留 12px。
+- 单词整理（单词和批量）使用右侧抽屉，手机端全屏，沿用 `Modal` 的焦点管理与返回；删除确认和词本命名仍为居中弹窗。
+- 词义展开动效已实现：词头上移、索引线伸向义项、正文错峰出现，总长不超过 500ms；学习卡切换与结束页线条收束各出现一次。以上动效在 `prefers-reduced-motion` 下直接呈现最终状态。
+- 深色模式仍未开放，仅保证 token 可映射。
 
 第一版采用原有 React + TypeScript + Vite；CSS 变量与组件样式承接本规范。可变字号、网格和动效使用 token，避免各页面自行写不同色值。插图和图标以可维护 SVG 为主，语义化 HTML 承载所有核心内容。
 
